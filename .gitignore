@@ -1,0 +1,132 @@
+# ==============================================================================
+# Comprehensive .gitignore for the geofence-validator Python project
+#
+# This file is based on the standard GitHub Python .gitignore template and has
+# been customized for our specific tooling and project structure.
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Python Artifacts
+# ------------------------------------------------------------------------------
+# Byte-compiled / optimized / C-extension files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ------------------------------------------------------------------------------
+# Environment and Secrets
+# ------------------------------------------------------------------------------
+# Virtual Environments
+.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment variables
+.env.*
+!.env.example
+.secrets
+secrets.sh
+
+# ------------------------------------------------------------------------------
+# Tool-Specific Caches and Reports
+# ------------------------------------------------------------------------------
+# Pytest
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.cover
+
+# Ruff
+.ruff_cache/
+
+# Mypy
+.mypy_cache/
+
+# Nox
+.nox/
+
+# Tox
+.tox/
+tox.ini
+
+# pyenv
+.python-version
+
+# ------------------------------------------------------------------------------
+# IDE and Editor Configuration
+# ------------------------------------------------------------------------------
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/
+
+# PyCharm
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+# ------------------------------------------------------------------------------
+# OS-specific files
+# ------------------------------------------------------------------------------
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+# ------------------------------------------------------------------------------
+# Other
+# ------------------------------------------------------------------------------
+# Notebooks (if any were used for exploration)
+.ipynb_checkpoints
+
+# Any local data files that shouldn't be committed
+*.local
+*.log
