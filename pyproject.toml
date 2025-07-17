@@ -1,28 +1,36 @@
 # ==============================================================================
-# pyproject.toml - Configuration for the geofence-validator library
+# pyproject.toml - The Definitive Constitution for the geofence-validator library
 #
-# This file centralizes package metadata, build system configuration, and tool
-# settings (linter, formatter, type checker, test runner) into a single,
-# standard-compliant file as defined by PEP 518, PEP 621, and others.
+# This file represents the single source of truth for the entire project. It
+# governs packaging, dependencies, project metadata, and the configuration of all
+# development tools. It is designed to be a living document that teaches Python
+# packaging best practices by example, adhering to PEP 621, PEP 518, and others.
 # ==============================================================================
 
 [build-system]
-# Defines the build backend and its requirements.
-# We use setuptools, the standard and robust choice for Python packaging.
+# PEP 518: Defines the build backend and its requirements. We use setuptools,
+# the standard and most robust choice for Python packaging.
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 
+# ==============================================================================
+# Project Metadata (PEP 621)
+# ==============================================================================
 [project]
-# Core project metadata as defined by PEP 621.
-# This information is used by package managers like pip and displayed on PyPI.
 name = "geofence-validator"
 version = "0.1.0"
-description = "A zero-dependency, deterministic library for IP-based geofence validation against whitelist/blacklist policies."
+description = "A zero-dependency, deterministic, and high-performance Python library for IP-based geofence validation."
 readme = "README.md"
 requires-python = ">=3.9"
-license = { file = "LICENSE" }
-keywords = ["geofence", "geoip", "security", "validation", "network", "acl"]
+
+# The modern, unambiguous way to declare a license.
+# `license` provides the machine-readable SPDX identifier for tools like GitHub.
+# `license-files` tells the build backend which file(s) to include in the dist.
+license = "MIT"
+license-files = ["LICENSE"]
+
+keywords = ["geofence", "geoip", "security", "validation", "network", "acl", "ipaddress"]
 
 authors = [
   { name = "Sooraj K R", email = "soorajkr03@gmail.com" },
@@ -31,12 +39,12 @@ maintainers = [
   { name = "Sooraj K R", email = "soorajkr03@gmail.com" },
 ]
 
-# Classifiers help users find your project on PyPI by categorizing it.
+# Classifiers help users find your project on PyPI and declare its state.
 # See: https://pypi.org/classifiers/
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    # The project is now stable, tested, and ready for its first release.
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
@@ -51,125 +59,145 @@ classifiers = [
     "Typing :: Typed",
 ]
 
-# As per the project requirements, this library is zero-dependency.
+# The library's core is intentionally zero-dependency.
 dependencies = []
 
-[project.urls]
 # Provides helpful links on the project's PyPI page.
+[project.urls]
 Homepage = "https://github.com/SunK3R/geofence-validator"
 Repository = "https://github.com/SunK3R/geofence-validator"
 "Bug Tracker" = "https://github.com/SunK3R/geofence-validator/issues"
 Documentation = "https://github.com/SunK3R/geofence-validator/blob/main/README.md"
 
+# Defines command-line scripts that will be created upon installation.
+# This allows users to run `geofence-validator ...` directly from their shell,
+# which is more professional and convenient than `python -m geofence_validator`.
+[project.scripts]
+geofence-validator = "geofence_validator.__main__:main"
 
-# ------------------------------------------------------------------------------
-# Tool-specific Configurations
-# ------------------------------------------------------------------------------
-
-[tool.setuptools]
-# Tells setuptools where to find the package source code.
-package-dir = {"" = "."}
-# Explicitly list the packages to be included in the distribution.
-packages = ["geofence_validator"]
-# Include non-Python files found in the package.
-package-data = {"geofence_validator" = ["data/*.csv"]}
-
-
-[tool.ruff]
-# Configuration for Ruff, the all-in-one linter and formatter.
-# https://docs.astral.sh/ruff/
-line-length = 88
-indent-width = 4
-target-version = "py39" # Enforce compatibility with Python 3.9+
-
-# Rule selection: A sensible default set for a robust library.
-# E/W: pycodestyle errors/warnings
-# F: Pyflakes (logic errors)
-# I: isort (import sorting)
-# UP: pyupgrade (modernize syntax)
-# B: flake8-bugbear (common bugs)
-# C4: flake8-comprehensions (idiomatic comprehensions)
-# SIM: flake8-simplify (code simplification)
-# T20: flake8-print (disallow print statements)
-select = ["E", "W", "F", "I", "UP", "B", "C4", "SIM", "T20"]
-ignore = []
-
-# Exclude common directories that don't need linting.
-exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".hg",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
-    "__pypackages__",
-    "_build",
-    "build",
-    "dist",
-    "venv",
-]
-
-[tool.ruff.format]
-# Configuration for the Ruff formatter (equivalent to Black).
-quote-style = "double"
-indent-style = "space"
-skip-magic-trailing-comma = false
-line-ending = "auto"
-docstring-code-format = true # Format code examples in docstrings.
-
-[tool.mypy]
-# Configuration for MyPy, the static type checker.
-# Enforces the project's strict typing policy.
-python_version = "3.9"
-
-# Strictness flags
-check_untyped_defs = true
-disallow_any_generics = true
-disallow_incomplete_defs = true
-disallow_untyped_defs = true
-no_implicit_optional = true
-warn_redundant_casts = true
-warn_return_any = true
-warn_unused_ignores = true
-
-# Project structure
-mypy_path = "."
-exclude = ["venv", ".venv", "build", "dist"]
-
-
-[tool.pytest.ini_options]
-# Configuration for Pytest, the test runner.
-minversion = "7.0"
-testpaths = ["tests"]
-python_files = "test_*.py"
-
-# Default command-line arguments for pytest.
-# -ra: show extra test summary info for all but passed tests
-# --strict-markers: fail on unregistered pytest markers
-# --import-mode=importlib: modern import handling
-addopts = "-ra --strict-markers --import-mode=importlib"
-
+# Defines optional dependencies for extra features or development.
+# Users can install these with `pip install "geofence-validator[rich,dev]"`.
 [project.optional-dependencies]
-# Dependencies required for development, testing, and maintenance scripts.
-# These are NOT installed for the end-user.
-# Install with: pip install ".[dev]"
-
-rich = [
-    "rich>=13.0.0",
-]
-
+rich = ["rich>=13.0.0"]
 dev = [
     "pytest>=7.0",
+    "pytest-cov>=5.0.0",
     "ruff>=0.1",
     "mypy>=1.6",
     "requests>=2.31.0",
     "python-dotenv>=1.0.0",
     "rich>=13.0.0",
-    "pytest-cov>=5.0.0",
+    "build",
+    "twine",
 ]
+
+
+# ==============================================================================
+# Tool Configurations
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Setuptools Configuration
+# ------------------------------------------------------------------------------
+[tool.setuptools]
+# We are being explicit about our package structure.
+# This tells setuptools to look for packages in the current directory.
+package-dir = {"" = "."}
+# Explicitly list all Python packages to be included. This is more robust
+# than discovery for well-defined project structures.
+packages = ["geofence_validator", "geofence_validator.data"]
+# Explicitly declare which data files inside a package should be bundled.
+package-data = {"geofence_validator.data" = ["*.csv"]}
+
+
+# ------------------------------------------------------------------------------
+# Ruff Linter & Formatter Configuration (The All-in-One Tool)
+# ------------------------------------------------------------------------------
+[tool.ruff]
+# Enforce compatibility with our minimum supported Python version.
+target-version = "py39"
+line-length = 88
+indent-width = 4
+
+[tool.ruff.lint]
+# A comprehensive set of rules for a high-quality, modern codebase.
+# E/W: pycodestyle | F: Pyflakes | I: isort | UP: pyupgrade | B: flake8-bugbear
+# C4: flake8-comprehensions | SIM: flake8-simplify | T20: flake8-print
+# ANN: flake8-annotations | PT: flake8-pytest-style
+select = ["E", "W", "F", "I", "UP", "B", "C4", "SIM", "T20", "ANN", "PT"]
+ignore = [
+    # It's common to ignore missing type hints for `self` and `cls`.
+    "ANN101",
+    "ANN102",
+]
+# Directories to exclude from linting and formatting.
+exclude = [".venv", "build", "dist", ".eggs"]
+
+[tool.ruff.lint.isort]
+# Explicitly configure import sorting within ruff.
+known-first-party = ["geofence_validator", "tests"]
+
+[tool.ruff.format]
+# Configuration equivalent to Black.
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
+
+
+# ------------------------------------------------------------------------------
+# MyPy Static Type Checker Configuration
+# ------------------------------------------------------------------------------
+[tool.mypy]
+# Enforce maximum strictness for type safety.
+python_version = "3.9"
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+strict_equality = true
+strict_optional = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_ignores = true
+warn_unreachable = true
+exclude = ["venv", ".venv", "build", "dist", ".eggs"]
+
+
+# ------------------------------------------------------------------------------
+# Pytest Test Runner Configuration
+# ------------------------------------------------------------------------------
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+# Treat all warnings as errors during testing. This enforces a very high
+# quality bar and prevents technical debt from accumulating.
+filterwarnings = "error"
+addopts = [
+    "-ra",                # Show extra test summary info for all but passed tests
+    "--strict-markers",   # Fail on unregistered pytest markers
+    "--import-mode=importlib", # Modern import handling
+    "--cov=geofence_validator", # Enable coverage reporting
+    "--cov-report=term-missing", # Show missing lines in the terminal
+]
+
+
+# ------------------------------------------------------------------------------
+# Test Coverage Configuration
+# ------------------------------------------------------------------------------
+[tool.coverage.run]
+# Centralizes coverage configuration.
+source = ["geofence_validator"]
+omit = [
+    # These files are not meant to have 100% testable logic.
+    "geofence_validator/__main__.py",
+    "geofence_validator/errors.py", # Abstract classes and simple inits
+    "geofence_validator/logger.py", # Relies on global state
+]
+
+[tool.coverage.report]
+# Fail the build if coverage drops below this threshold.
+fail_under = 95
+show_missing = true
